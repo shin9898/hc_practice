@@ -13,8 +13,17 @@
 
 * touch PULL_REQUEST_TEMPLATE
 
-* 
+* git add .
+
+* git st
+
+* git commit
+
+* git log --oneline
+
+* git push origin pr_template
 
 ## その他
 
 * レビュワーへの参考情報（実装上の懸念点や注意点、困りごとなど）
+特にありません。
