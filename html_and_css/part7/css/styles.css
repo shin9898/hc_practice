@@ -1,0 +1,8 @@
+.color-box {
+  color: blue;
+  background-color: yellow;
+}
+
+.border-box {
+  border: 5px solid black;
+}

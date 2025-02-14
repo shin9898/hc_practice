@@ -1,0 +1,16 @@
+p {
+ color: red;
+}
+
+#intresting {
+  color: yellow;
+}
+
+.difficult {
+  color: blue;
+}
+
+a[href="https://example.com"] {
+  color: orange;
+}
+
