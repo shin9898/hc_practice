@@ -1,0 +1,164 @@
+/*スマホ用設定*/
+.container {
+  width: 960px;
+  margin: 0 auto;
+}
+
+header {
+  width: 33.45%;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  margin: 5px auto;
+  align-items: center;
+}
+
+header p,
+header li {
+  text-align: center;
+}
+
+header p {
+  width: 100%;
+  background-color: #374151;
+  color: #fff;
+  font-size: 22px;
+  padding: 2px 5px;
+}
+
+header ul {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+header li {
+  text-decoration: none;
+  font-size: 12px;
+}
+
+main {
+  height: 600px;
+  margin-bottom: 30px;
+}
+
+main img {
+  width: 100%;
+  height: 100%;
+}
+
+.introduce {
+  width: 33.45%;
+  margin: 0 auto;
+  margin-bottom: 100px;
+  text-align: center;
+}
+
+.introduce_main {
+  text-align: center;
+}
+
+.profile {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.introduce h1,
+.profile_img h1 {
+  font-size: 36px;
+  font-weight: 600;
+  border-bottom: 1px solid #000;
+  display: inline-block;
+  margin-bottom: 30px;
+}
+
+.name,
+.profile_img_title {
+  font-weight: 600;
+}
+
+.name {
+  display: inline-block;
+  margin-bottom: 10px;
+}
+
+.introduce img {
+  border-radius: 50%;
+}
+
+.profile_img {
+  width: 33.45%;
+  margin: 0 auto;
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.profile_img_content {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.profile_img_content p {
+  display: inline-block;
+  margin-bottom: 10px;
+}
+
+footer {
+  text-align: center;
+  color: #828285;
+  border-bottom: 5px solid #000;
+}
+
+footer p {
+  display: inline;
+}
+
+/*PC用の設定*/
+@media screen and (min-width:600px) {
+
+  header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  header p {
+    width: 9.6%;
+  }
+
+  main {
+    margin: 0 calc(50% - 50vw);
+    width: 100vw;
+    margin-bottom: 30px;
+  }
+
+  .introduce {
+    width: 100%;
+  }
+
+  .introduce_main {
+    display: grid;
+    grid-template-columns: 5fr 1fr;
+  }
+
+  .profile {
+    grid-column: 1;
+    text-align: initial;
+    font-size: 22px;
+    margin-bottom: 0;
+  }
+
+  .introduce img {
+    grid-column: 2;
+  }
+
+  .profile_img {
+    width: 100%;
+  }
+
+  .profile_img_main {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+  }
+}
