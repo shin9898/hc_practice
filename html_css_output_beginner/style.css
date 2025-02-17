@@ -48,7 +48,7 @@ main img {
 }
 
 .introduce {
-  width: 33.45%;
+  width: 100%;
   margin: 0 auto;
   margin-bottom: 100px;
   text-align: center;
@@ -63,6 +63,14 @@ main img {
   margin-bottom: 10px;
 }
 
+.profile p {
+  display: inline-block;
+}
+
+.profile_txt {
+  font-size: 14px;
+}
+
 .introduce h1,
 .profile_img h1 {
   font-size: 36px;
@@ -74,6 +82,7 @@ main img {
 
 .name,
 .profile_img_title {
+  font-size: 18px;
   font-weight: 600;
 }
 
@@ -127,11 +136,11 @@ footer p {
     width: 9.6%;
   }
 
-  main {
-    margin: 0 calc(50% - 50vw);
-    width: 100vw;
-    margin-bottom: 30px;
-  }
+    main {
+      margin: 0 calc(50% - 50vw);
+      width: 100vw;
+      margin-bottom: 30px;
+    }
 
   .introduce {
     width: 100%;
