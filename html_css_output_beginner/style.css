@@ -38,6 +38,7 @@ header li {
 }
 
 main {
+  width: 100%;
   height: 600px;
   margin-bottom: 30px;
 }
@@ -124,8 +125,7 @@ footer p {
 }
 
 /*PC用の設定*/
-@media screen and (min-width:600px) {
-
+@media screen and (min-width: 600px) {
   header {
     width: 100%;
     display: flex;
@@ -136,11 +136,11 @@ footer p {
     width: 9.6%;
   }
 
-    main {
-      margin: 0 calc(50% - 50vw);
-      width: 100vw;
-      margin-bottom: 30px;
-    }
+  main {
+    margin: 0 calc(50% - 50vw);
+    width: 100vw;
+    margin-bottom: 30px;
+  }
 
   .introduce {
     width: 100%;
@@ -149,6 +149,10 @@ footer p {
   .introduce_main {
     display: grid;
     grid-template-columns: 5fr 1fr;
+  }
+
+  .profile_txt {
+    font-size: 20px;
   }
 
   .profile {
