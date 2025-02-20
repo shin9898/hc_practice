@@ -1,11 +1,12 @@
 /*スマホ用設定*/
 .container {
-  width: 960px;
+  width: 100%;
   margin: 0 auto;
+  padding: 0 4%;
 }
 
 header {
-  width: 33.45%;
+  width: 100%;
   display: grid;
   grid-template-columns: 1fr 2fr;
   margin: 5px auto;
@@ -44,7 +45,7 @@ main {
 }
 
 main img {
-  width: 100%;
+  width: 1920px;
   height: 100%;
 }
 
@@ -97,7 +98,7 @@ main img {
 }
 
 .profile_img {
-  width: 33.45%;
+  width: 100%;
   margin: 0 auto;
   text-align: center;
   margin-bottom: 50px;
@@ -132,14 +133,17 @@ footer p {
     justify-content: space-between;
   }
 
+  .container {
+    width: 960px;
+  }
+
   header p {
     width: 9.6%;
   }
 
   main {
-    margin: 0 calc(50% - 50vw);
+    margin: 0 calc(50% - 50vw) 30px;
     width: 100vw;
-    margin-bottom: 30px;
   }
 
   .introduce {
