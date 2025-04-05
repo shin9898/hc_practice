@@ -44,8 +44,9 @@ def check_the_month(month_str):
         if 1 <= month <= 12:
             return month
     except ValueError:
-        print(f"{month} is neither a month number (1..12) nor a name")
-        sys.exit(1)
+        pass
+    print(f"{month} is neither a month number (1..12) nor a name")
+    sys.exit(1)
 
 # 関数を実行していく
 if __name__ == '__main__':
