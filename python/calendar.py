@@ -1,14 +1,13 @@
 import datetime
 import sys
 
-def run_calendar(year, month, day):
-    month_name = day.strftime("%B")
+def run_calendar(year, month, first_day):
+    month_name = first_day.strftime("%B")
     print(f"{month_name} {year}".center(20))
 
     day_of_week = 'Mo Tu We Th Fr Sa Su'
     print(f"{day_of_week}")
 
-    first_day = datetime.date(year, month, 1)
     end_of_month = datetime.date(year + 1, 1, 1) - datetime.timedelta(days=1) if month == 12 else datetime.date(year, month + 1, 1) - datetime.timedelta(days=1)
     days_of_month = (end_of_month).day
     first_day_of_week = first_day.weekday()
@@ -22,39 +21,74 @@ def run_calendar(year, month, day):
         if (current_day.weekday() + 1) % 7 == 0:
             print()
 
-args = sys.argv
+# 関数分割をやっていく
 
-# len(args) == 1 or len(args) == 3のときrun_calendarを実行したい
-if len(args) == 1 or len(args) == 3:
-# len(args) == 1 のときはtodayからyearとmonth代入
+# args = sys.argv の引数がないのか、-m int の形なのか判定する関数
+def argument_judgement():
+    args = sys.argv
     if len(args) == 1:
-        day = datetime.date.today()
-        year = day.year
-        month = day.month
-        run_calendar(year, month, day)
-# len(args) == 3 かつ'1' <= args(2) <= '12'のときはtodayからyear,args[2]からmonthに代入
-    if len(args) == 3:
+        today = datetime.date.today()
+        return today.year, today.month
+    if len(args) == 3 and args[1] == '-m':
         today = datetime.date.today()
         year = today.year
-        try:
-            month = int(args[2])
-        except ValueError:
-            print(f"{args[2]} is neither a month number (1..12) nor a name")
-            sys.exit(1)
-        try:
-            day = datetime.date(year, month, 1)
-        except ValueError:
-            print(f"{month} is neither a month number (1..12) nor a name")
-            sys.exit(1)
-        if args[1] == '-m' and 1 <= month <= 12:
-            run_calendar(year, month, day)
-        else:
-            print(f"{month} is neither a month number (1..12) nor a name")
-            sys.exit(1)
-# それ以外は print(f"{month} is neither a month number (1..12) nor a name")してsys.exit(1)
-else:
-    print(f"{month} is neither a month number (1..12) nor a name")
+        month = check_the_month(args[2])
+        return year, month
+    print(f"{args} is neither a month number (1..12) nor a name")
     sys.exit(1)
+
+# -m intの場合 1 <= int <= 12 なのかを判定する
+def check_the_month(month_str):
+    try:
+        month = int(month_str)
+        if 1 <= month <= 12:
+            return month
+    except ValueError:
+        print(f"{month} is neither a month number (1..12) nor a name")
+        sys.exit(1)
+
+# 関数を実行していく
+if __name__ == '__main__':
+    year, month = argument_judgement()
+    first_day = datetime.date(year, month, 1)
+    run_calendar(year, month, first_day)
+
+
+
+# 学習記録 --------------------------------------------------------------------------------------------------------
+# args = sys.argv
+
+# # len(args) == 1 or len(args) == 3のときrun_calendarを実行したい
+# if len(args) == 1 or len(args) == 3:
+# # len(args) == 1 のときはtodayからyearとmonth代入
+#     if len(args) == 1:
+#         day = datetime.date.today()
+#         year = day.year
+#         month = day.month
+#         run_calendar(year, month, day)
+# # len(args) == 3 かつ'1' <= args(2) <= '12'のときはtodayからyear,args[2]からmonthに代入
+#     if len(args) == 3:
+#         today = datetime.date.today()
+#         year = today.year
+#         try:
+#             month = int(args[2])
+#         except ValueError:
+#             print(f"{args[2]} is neither a month number (1..12) nor a name")
+#             sys.exit(1)
+#         try:
+#             day = datetime.date(year, month, 1)
+#         except ValueError:
+#             print(f"{month} is neither a month number (1..12) nor a name")
+#             sys.exit(1)
+#         if args[1] == '-m' and 1 <= month <= 12:
+#             run_calendar(year, month, day)
+#         else:
+#             print(f"{month} is neither a month number (1..12) nor a name")
+#             sys.exit(1)
+# # それ以外は print(f"{month} is neither a month number (1..12) nor a name")してsys.exit(1)
+# else:
+#     print(f"{month} is neither a month number (1..12) nor a name")
+#     sys.exit(1)
 
 # 学習記録-----------------------------------------------------------------------------------------------
 # 必須条件
