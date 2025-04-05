@@ -5,7 +5,8 @@ l = ["A", "B", "C", "D", "E", "F"]
 group_pattern = [2, 3, 4]
 chose_pattern = random.choice(group_pattern)
 group1 = random.sample(l, chose_pattern)
-group2 = [person for person in l if not person in group1]
+# group2 = [person for person in l if not person in group1]
+group2 = list(set(l) - set(group1))
 
 print(group1)
 print(group2)
