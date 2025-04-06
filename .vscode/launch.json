@@ -13,7 +13,7 @@
       "request": "launch",
       "program": "${file}",
       "console": "integratedTerminal",
-      "args": "${command:pickArgs}"
+      "args": ["-m", "3"]
     }
   ]
 }
