@@ -1,43 +1,142 @@
 
 # 必要なクラスを考えていく
-
 # class CashlessCard
 class CashlessCard:
-# 必要な変数：カード名, デポジット(default==500)
-    def __init__(self, card_name,deposit):
+    def __init__(self, card_name, deposit=500):
         self.card_name = card_name
-        self.deposit = deposit
+        self._deposit = deposit
 # 必要な関数：チャージする(100円未満は例外処理), 残高確認, 支払う
+# チャージする
+    def charge(self, charge_amount):
+          if int(charge_amount) < 100:
+              raise ValueError("100円未満はチャージできません")
+          self._deposit += charge_amount
+          return self._deposit
+        
+# 支払い
+    def pay(self, price):
+        if self._deposit < price:
+              raise ValueError("残高不足です")
+        self._deposit -= price
+        return self._deposit
 
-# Suicaインスタンスの生成
-suica = CashlessCard('Suica', 500)
-print(suica.card_name)
-print(suica.deposit)
+# 残高を取得 getterとsetterを後程定義
+    def get_deposit(self):
+        return self._deposit
+
 
 # class Juice
 class Juice:
-# 必要な変数：ジュース名, 値段
-    def __init__(self,juice_name, price):
-        self.juice_name = juice_name
+    def __init__(self, name, price):
+        self.name = name
         self.price = price
-# 必要な関数：思いつかず
-# ペプシインスタンスの生成
-pepsi = Juice('ペプシ', 150)
-print(pepsi.juice_name)
-print(pepsi.price)
+
 
 # class VendingMachine
 class VendingMachine:
-# 必要な変数：自販機名,格納されているジュースの種類, 在庫数, 売上金額
-    def __init__(self, vending_machine_name, juice_type_stored, stock_quantity, sales_amount):
-          self.vending_machine_name = vending_machine_name
-          self.juice_type_stored = juice_type_stored
-          self.stock_quantity = stock_quantity
-          self.sales_amount = sales_amount
-# 必要な関数：ジュースの補充, ジュースの購入, 在庫数の表示, 総売上金額の表示
-# １種類のジュースが格納できる自販機インスタンスの生成
-vending_machine1 = VendingMachine('machine1', 1, 5, 0)
-print(vending_machine1.vending_machine_name)
-print(vending_machine1.juice_type_stored)
-print(vending_machine1.stock_quantity)
-print(vending_machine1.sales_amount)
+    def __init__(self, machine_name):
+        self.machine_name = machine_name
+        self.stock = {'ペプシ': 5, 'モンスター': 5, 'いろはす': 5}
+        self._sales = 0
+# 必要な関数：在庫数の表示, 総売上金額の表示
+    def add_stock(self, juice, quantity):
+        if juice.name not in self.stock:
+            self.stock[juice.name] = 0
+        self.stock[juice.name] += quantity
+
+    def get_stock_count(self, juice_name):
+        return self.stock.get(juice_name)
+    
+    # getterとsetterを後程定義
+    def get_sales(self):
+        return self._sales
+    
+    def can_purchase(self, juice, card):
+        return self.stock.get(juice.name, 0) > 0 and card.get_deposit() >= juice.price
+    
+    def purchase(self, juice, card):
+        if not self.can_purchase(juice, card):
+              raise Exception("購入できません")
+        card.pay(juice.price)
+        self.stock[juice.name] -= 1
+        self._sales += juice.price
+
+
+# プログラム実行の流れ
+if __name__ == '__main__':
+    suica = CashlessCard("Suica")
+    pepsi = Juice("ペプシ", 150)
+    monster = Juice("モンスター", 230)
+    irohas = Juice("いろはす", 120)
+    vm = VendingMachine("VM")
+
+    juice_menu = {
+        1: pepsi,
+        2: monster,
+        3: irohas
+    }
+
+    while True:
+        menu_number = int(input(
+        """
+        メニュー番号を選んでください。
+        1. キャッシュレスカードにチャージ
+        2. ジュース購入
+        3. 自販機のジュース在庫・売上金額確認
+        4. ジュースの補充
+        5. 終了
+        :
+        """))
+        if menu_number == 1:
+            try:
+                charge_amount = int(input("チャージ金額を入力してください(100円以上) : "))
+                suica.charge(charge_amount)
+                print(f"{charge_amount}円チャージしました。現在の残高: {suica.get_deposit()}円")
+            except ValueError as e:
+                print(e)
+
+        elif menu_number == 2:
+            print("【購入できるジュース一覧】")
+            for key, juice in juice_menu.items():
+                print(f"{key}.{juice.name} ({juice.price}円)")
+            juice_choice = int(input("購入したいジュースの番号を選んでください : "))
+            selected_juice = juice_menu.get(juice_choice)
+
+            try:
+                if not selected_juice:
+                    raise Exception("無効な選択です")
+                if not vm.can_purchase(selected_juice, suica):
+                    raise Exception("購入条件を満たしていません")
+                vm.purchase(selected_juice, suica)
+                print(f"{selected_juice.name}を購入しました。現在の残高: {suica.get_deposit()}円")
+            except Exception as e:
+                print(e)
+
+        elif menu_number == 3:
+            
+            for juice in [pepsi, monster, irohas]:
+                print(f"在庫: {juice.name}{vm.get_stock_count(juice.name)}本")
+            print(f"自販機総売上 : {vm.get_sales()}円")
+
+        elif menu_number == 4:
+            print("【ジュース在庫状況一覧】")
+            for key, juice in juice_menu.items():
+                print(f"{key}.{juice.name} : {vm.get_stock_count(juice.name)}本")
+            juice_choice = int(input("補充したいジュースの番号を選択してください : "))
+            selected_juice = juice_menu.get(juice_choice)
+            quantity = int(input("補充したい本数を入力してください : "))
+
+            try:
+                if not selected_juice and quantity:
+                    raise Exception("無効な選択値です")
+                vm.add_stock(selected_juice, quantity)
+                print(f"{selected_juice.name}を{quantity}本補充しました。合計:{vm.get_stock_count(selected_juice.name)}本")
+            except Exception as e:
+                print(e)
+
+        elif menu_number == 5:
+            print("終了します")
+            break
+        
+        else:
+            print("無効なメニュー番号です")
