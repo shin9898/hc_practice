@@ -16,14 +16,23 @@ class CashlessCard:
 # 支払い
     def pay(self, price):
         if self._deposit < price:
-              raise ValueError("残高不足です")
+            raise ValueError("残高不足です")
         self._deposit -= price
         return self._deposit
 
 # 残高を取得 getterとsetterを後程定義
-    def get_deposit(self):
+    # def get_deposit(self):
+    #     return self._deposit
+    @property
+    def deposit(self):
         return self._deposit
-
+    
+    @deposit.setter
+    def deposit(self, deposit):
+        if deposit < 0:
+            False
+        else:
+            self._deposit = deposit
 
 # class Juice
 class Juice:
@@ -46,10 +55,17 @@ class VendingMachine:
 
     def get_stock_count(self, juice_name):
         return self.stock.get(juice_name)
-    
-    # getterとsetterを後程定義
-    def get_sales(self):
+
+    @property
+    def sales(self):
         return self._sales
+    
+    @sales.setter
+    def sales(self, sales):
+        if sales < 0:
+            False
+        else:
+            self._sales = sales
     
     def can_purchase(self, juice, card):
         return self.stock.get(juice.name, 0) > 0 and card.get_deposit() >= juice.price
@@ -89,9 +105,10 @@ if __name__ == '__main__':
         """))
         if menu_number == 1:
             try:
+                print("【キャッシュレスカードにチャージ】")
                 charge_amount = int(input("チャージ金額を入力してください(100円以上) : "))
                 suica.charge(charge_amount)
-                print(f"{charge_amount}円チャージしました。現在の残高: {suica.get_deposit()}円")
+                print(f"{charge_amount}円チャージしました。現在の残高: {suica.deposit}円")
             except ValueError as e:
                 print(e)
 
@@ -108,15 +125,15 @@ if __name__ == '__main__':
                 if not vm.can_purchase(selected_juice, suica):
                     raise Exception("購入条件を満たしていません")
                 vm.purchase(selected_juice, suica)
-                print(f"{selected_juice.name}を購入しました。現在の残高: {suica.get_deposit()}円")
+                print(f"{selected_juice.name}を購入しました。現在の残高: {suica.deposit}円")
             except Exception as e:
                 print(e)
 
         elif menu_number == 3:
-            
+            print("【自販機のジュース在庫一覧・売上金額表示】")
             for juice in [pepsi, monster, irohas]:
                 print(f"在庫: {juice.name}{vm.get_stock_count(juice.name)}本")
-            print(f"自販機総売上 : {vm.get_sales()}円")
+            print(f"自販機総売上 : {vm.sales()}円")
 
         elif menu_number == 4:
             print("【ジュース在庫状況一覧】")
