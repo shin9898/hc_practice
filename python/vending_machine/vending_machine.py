@@ -68,7 +68,7 @@ class VendingMachine:
             self._sales = sales
     
     def can_purchase(self, juice, card):
-        return self.stock.get(juice.name, 0) > 0 and card.get_deposit() >= juice.price
+        return self.stock.get(juice.name, 0) > 0 and card.deposit >= juice.price
     
     def purchase(self, juice, card):
         if not self.can_purchase(juice, card):
@@ -133,7 +133,7 @@ if __name__ == '__main__':
             print("【自販機のジュース在庫一覧・売上金額表示】")
             for juice in [pepsi, monster, irohas]:
                 print(f"在庫: {juice.name}{vm.get_stock_count(juice.name)}本")
-            print(f"自販機総売上 : {vm.sales()}円")
+            print(f"自販機総売上 : {vm.sales}円")
 
         elif menu_number == 4:
             print("【ジュース在庫状況一覧】")
