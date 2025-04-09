@@ -4,7 +4,7 @@ class VendingMachine:
         self.machine_name = machine_name
         self.stock = []
 
-        # 初期在庫を追加
+        # 初期在庫5本を追加
         for _ in range(5):
             self.stock.append(Juice('ペプシ', 150))
             self.stock.append(Juice('モンスター', 230))
