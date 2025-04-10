@@ -15,7 +15,7 @@ class VendingMachine:
 # 在庫補充
     def add_stock(self, juice, quantity):
         for _ in range(quantity):
-            self.stock.append(Juice(juice.name, juice.price))
+            self.stock.append(Juice(juice))
 
 # 在庫確認
     def get_stock_count(self, juice_name):
