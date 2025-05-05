@@ -1,0 +1,99 @@
+[users] {bgcolor: "#cdebf9"}
+*id {label: "bigint, not null, uniq"}
+user_name {label: "varchar(30), not null, uniq"}
+display_name {label: "varchar(50), null"}
+phone_number {label: "varchar(15), not null, uniq, check '^\d{10,15}$'"}
+email {label: "varchar(255), not null, uniq"}
+self_introduction {label: "text, null"}
+location {label: "varchar(100), null"}
+web_site {label: "varchar(255), null"}
+birthday {label: "date, null"}
+profile_image {label: "varchar(255), null"}
+avatar_image {label: "varchar(255), null"}
+created_at {label: "datetime, not null, default CURRENT_TIMESTAMP"}
+updated_at {label: "datetime, not null, default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP"}
+
+[follows] {bgcolor: "#cdebf9"}
+*id {label: "bigint, not null, uniq"}
+follower_id {label: "bigint, not null, FK(users)"}
+followed_id {label: "bigint, not null, FK(users)"}
+created_at {label: "datetime, not null, default CURRENT_TIMESTAMP"}
+
+[posts] {bgcolor: "#e8f4e5"}
+*id {label: "bigint, not null, uniq"}
+user_id {label: "bigint, not null, FK(users)"}
+post_content {label: "varchar(140), not null"}
+impression_count {label: "int, not null, default 0"}
+created_at {label: "datetime, not null, default CURRENT_TIMESTAMP"}
+updated_at {label: "datetime, not null, default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP"}
+
+[likes] {bgcolor: "#e8f4e5"}
+*id {label: "bigint, not null, uniq"}
+user_id {label: "bigint, not null, FK(users)"}
+post_id {label: "bigint, not null, FK(posts)"}
+created_at {label: "datetime, not null, default CURRENT_TIMESTAMP"}
+
+[bookmarks] {bgcolor: "#e8f4e5"}
+*id {label: "bigint, not null, uniq"}
+user_id {label: "bigint, not null, FK(users)"}
+post_id {label: "bigint, not null, FK(posts)"}
+created_at {label: "datetime, not null, default CURRENT_TIMESTAMP"}
+
+[reposts] {bgcolor: "#e8f4e5"}
+*id {label: "bigint, not null, uniq"}
+repost_user_id {label: "bigint, not null, FK(users)"}
+original_post_id {label: "bigint, not null, FK(posts)"}
+created_at {label: "datetime, not null, default CURRENT_TIMESTAMP"}
+
+[dm_rooms] {bgcolor: "#f0d9ff"}
+*id {label: "bigint, not null, uniq"}
+user1_id {label: "bigint, not null, FK(users)"}
+user2_id {label: "bigint, not null, FK(users)"}
+created_at {label: "datetime, not null, default CURRENT_TIMESTAMP"}
+
+[dm_messages] {bgcolor: "#f0d9ff"}
+*id {label: "bigint, not null, uniq"}
+dm_room_id {label: "bigint, not null, FK(dm_rooms)"}
+sender_id {label: "bigint, not null, FK(users)"}
+message_content {label: "text, not null"}
+dm_read_status {label: "boolean, not null, default False"}
+created_at {label: "datetime, not null, default CURRENT_TIMESTAMP"}
+
+[notifications] {bgcolor: "#f9d9d9"}
+*id {label: "bigint, not null, uniq"}
+user_id {label: "bigint, not null, FK(users)"}
+source_user_id {label: "bigint, not null, FK(users)"}
+action_type {label: "enum('like', 'repost', 'follow', 'dm_message'), not null"}
+related_post_id {label: "bigint, null, FK(posts)"}
+notification_read_status {label: "boolean, not null, default False"}
+created_at {label: "datetime, not null, default CURRENT_TIMESTAMP"}
+
+[tags] {bgcolor: "#fef8d7"}
+*id {label: "bigint, not null, uniq"}
+tag_name {label: "varchar(50), not null"}
+created_at {label: "datetime, not null, default CURRENT_TIMESTAMP"}
+
+[post_tags] {bgcolor: "#fef8d7"}
+*id {label: "bigint, not null, uniq"}
+post_id {label: "bigint, not null, FK(posts)"}
+tag_id {label: "bigint, not null, FK(tags)"}
+
+# Cardinality    Syntax
+# 0 or 1         ?
+# exactly 1      1
+# 0 or more      *
+# 1 or more      +
+
+users 1--? posts
+users 1--* likes
+users 1--* bookmarks
+users 1--* reposts
+users 1--* follows
+users 1--* dm_rooms
+dm_rooms 1--* dm_messages
+users 1--* notifications
+posts 1--* likes
+posts 1--* bookmarks
+posts 1--* reposts
+posts 1--* post_tags
+tags ?--* post_tags
